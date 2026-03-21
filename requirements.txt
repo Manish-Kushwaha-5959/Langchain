@@ -28,3 +28,5 @@ scikit-learn
 
 pypdf
 beautifulsoup4
+langchain_experimental
+
