@@ -30,3 +30,5 @@ pypdf
 beautifulsoup4
 langchain_experimental
 chromadb
+wikipedia
+langchain_community
