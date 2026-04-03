@@ -32,3 +32,4 @@ langchain_experimental
 chromadb
 wikipedia
 langchain_community
+youtube-transcript-api
