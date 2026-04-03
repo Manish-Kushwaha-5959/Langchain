@@ -33,3 +33,6 @@ chromadb
 wikipedia
 langchain_community
 youtube-transcript-api
+pydantic
+duckduckgo-search 
+ddgs
