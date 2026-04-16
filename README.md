@@ -2,6 +2,17 @@
 
 Welcome to the repository documenting a progressive journey in learning and mastering LangChain! This project serves as a structured collection of examples, tutorials, and scripts that explore the various components of the LangChain framework.
 
+## About This Project
+
+This repository was created following the **CampusX LangChain playlist** as a learning guide. However, there's one key difference:
+
+> **Open Source & Free First:** While the original tutorials used OpenAI's paid models, this repository demonstrates all concepts using **free and open-source alternatives**:
+> - **HuggingFace models** (Mistral, Zephyr) for most LLM tasks
+> - **Google Gemini** (free tier) for agent and tool-calling demonstrations
+> - **Local embeddings** using sentence-transformers
+>
+> This approach makes LangChain learning accessible without requiring expensive API subscriptions.
+
 ## Table of Contents
 1. [Prerequisites & Setup](#prerequisites--setup)
 2. [Project Structure](#project-structure)
@@ -14,6 +25,10 @@ Welcome to the repository documenting a progressive journey in learning and mast
    - [9. Text Splitter](#9-text-splitter)
    - [10. Vector Store](#10-vector-store)
    - [11. Retrievers](#11-retrievers)
+   - [12. RAG](#12-rag)
+   - [13. Tools](#13-tools)
+   - [14. Tool Calling](#14-tool-calling)
+   - [15. Agent](#15-agent)
 3. [Technologies & Integrations](#technologies--integrations)
 4. [Learning Path](#learning-path)
 
@@ -225,6 +240,80 @@ Retrieval mechanisms for fetching relevant context in RAG applications.
 
 ---
 
+### 12. RAG (`12_RAG`)
+Retrieval Augmented Generation - combining retrieval with LLM generation.
+
+**Files:**
+- `rag_demo.ipynb` - Complete RAG pipeline demonstration
+
+**Key Concepts:**
+- YouTube transcript ingestion
+- Document splitting with `RecursiveCharacterTextSplitter`
+- FAISS vector store for embeddings
+- Building end-to-end RAG chains with LCEL
+- Context-aware question answering
+- RunnableParallel for simultaneous retrieval and query passing
+
+---
+
+### 13. Tools (`13_Tools`)
+Creating and using tools that agents can leverage.
+
+**Files:**
+- `Tools.ipynb` - Comprehensive tools tutorial
+
+**Key Concepts:**
+- **Built-in tools:**
+  - `DuckDuckGoSearchRun` - Web search
+  - `ShellTool` - Execute shell commands
+- **Custom tools with `@tool` decorator** - Quick function-to-tool conversion
+- **StructuredTool** - Tools with Pydantic schema validation
+- **BaseTool** - Full control with custom tool classes
+- **Toolkits** - Grouping multiple tools together
+
+**Three Methods to Create Tools:**
+1. `@tool` decorator - Simplest, automatic schema
+2. `StructuredTool.from_function()` - Custom schema with Pydantic
+3. `BaseTool` subclass - Maximum customization
+
+---
+
+### 14. Tool Calling (`14_Tool_Calling`)
+Teaching LLMs to use tools autonomously.
+
+**Files:**
+- `tool_calling.ipynb` - Tool calling with Gemini
+- `currency_conversion_agent.ipynb` - Practical agent example
+
+**Key Concepts:**
+- `bind_tools()` - Attaching tools to LLM
+- Tool call detection and parsing
+- Message flow: Human → LLM (tool_call) → Tool → LLM (final answer)
+- Maintaining conversation history with tool messages
+- Multi-turn tool-using conversations
+
+---
+
+### 15. Agent (`15_Agent`)
+Building autonomous agents that plan and execute tasks.
+
+**Files:**
+- `simple_agent.ipynb` - ReAct agent implementation
+
+**Key Concepts:**
+- **ReAct Agent** (Reason + Act) - Agent that thinks before acting
+- `hub.pull("hwchase17/react")` - Standard ReAct prompt from LangChain Hub
+- `create_react_agent()` - Agent creation utility
+- `AgentExecutor` - Running the agent loop
+- Tool-augmented reasoning
+
+**Agent Flow:**
+```
+Question → Thought → Action → Observation → Thought → Final Answer
+```
+
+---
+
 ## Technologies & Integrations
 
 The repository is built leveraging several modern AI tools and libraries:
@@ -233,23 +322,27 @@ The repository is built leveraging several modern AI tools and libraries:
 - LangChain, langchain-core, langchain-community, langchain-experimental
 
 **LLM Integrations:**
-- OpenAI (`langchain-openai`)
-- Anthropic (`langchain-anthropic`)
-- Google Gemini (`langchain-google-genai`)
-- HuggingFace (`langchain-huggingface`, `transformers`)
+- **HuggingFace** (`langchain-huggingface`, `transformers`) - Primary LLM provider (Mistral, Zephyr)
+- **Google Gemini** (`langchain-google-genai`) - Agent and tool-calling demos (free tier)
+- OpenAI (`langchain-openai`) - Available but not used in examples
+- Anthropic (`langchain-anthropic`) - Available but not used in examples
 
 **Vector Stores & Retrieval:**
 - ChromaDB
+- FAISS
 - Wikipedia API
 
 **Document Processing:**
 - PyPDF (PDF parsing)
 - BeautifulSoup4 (HTML parsing)
+- YouTube Transcript API
 
 **Utilities:**
 - python-dotenv (environment management)
 - NumPy (numerical operations)
 - Scikit-learn (ML utilities)
+- Pydantic (data validation)
+- DuckDuckGo Search (web search tool)
 
 ---
 
@@ -258,7 +351,7 @@ The repository is built leveraging several modern AI tools and libraries:
 This repository follows a **progressive learning journey**:
 
 ```
-Models → Prompts → Structured Output → Chains → LCEL → Documents → Splitters → Vectors → Retrievers
+Models → Prompts → Structured Output → Chains → LCEL → Documents → Splitters → Vectors → Retrievers → RAG → Tools → Tool Calling → Agents
 ```
 
 1. **Start with Models** - Learn to initialize and interact with LLMs
@@ -270,6 +363,10 @@ Models → Prompts → Structured Output → Chains → LCEL → Documents → S
 7. **Split Text** - Chunk documents for processing
 8. **Create Vectors** - Embed and store semantic representations
 9. **Retrieve Context** - Build RAG applications with retrievers
+10. **Build RAG Systems** - Complete retrieval-augmented generation pipelines
+11. **Create Tools** - Build custom tools for agents
+12. **Enable Tool Calling** - Let LLMs use tools autonomously
+13. **Build Agents** - Create autonomous agents that reason and act
 
 ---
 
@@ -289,6 +386,26 @@ python 08_Document_Loader/text_loader.py
 ```
 
 Ensure your `.env` file is properly configured with API keys before running.
+
+### API Key Notes
+
+| API | Required For | Cost |
+|-----|--------------|------|
+| `HUGGINGFACEHUB_API_TOKEN` | Most LLM examples (Mistral, Zephyr) | Free |
+| `GOOGLE_API_KEY` | Agent & tool-calling demos | Free tier (limited) |
+| `OPENAI_API_KEY` | Optional - not used in examples | Paid |
+| `ANTHROPIC_API_KEY` | Optional - not used in examples | Paid |
+
+> **Tip:** The examples prioritize free models. HuggingFace provides free inference, and Gemini's free tier is sufficient for learning agents.
+
+---
+
+## Resources
+
+- **Inspired by:** CampusX LangChain Playlist
+- **LangChain Docs:** https://python.langchain.com/
+- **HuggingFace Models:** https://huggingface.co/models
+- **Google Gemini API:** https://ai.google.dev/
 
 ---
 
